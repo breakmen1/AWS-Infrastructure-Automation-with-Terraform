@@ -1,4 +1,5 @@
 ########  Why this project? 
+
 In the real world, applications need to be:
 Highly available → using multiple subnets/AZs, ALB, and Auto Scaling ensures uptime.
 Secure → instances stay in private subnets, hidden from the internet, only accessible via ALB.
