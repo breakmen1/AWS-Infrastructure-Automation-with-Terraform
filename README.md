@@ -1,12 +1,3 @@
-########  Why this project? 
-
-In the real world, applications need to be:
-Highly available → using multiple subnets/AZs, ALB, and Auto Scaling ensures uptime.
-Secure → instances stay in private subnets, hidden from the internet, only accessible via ALB.
-Scalable → Auto Scaling Group automatically adjusts instance count based on demand.
-Automated & Repeatable → Terraform codifies the entire infrastructure, so it can be deployed, updated, or destroyed consistently in minutes.
-This project is a practical demonstration of building a production-ready, cloud-native architecture. It helps learners and professionals understand how modern web applications are deployed on AWS using Infrastructure as Code (IaC).
-
 
 ########  Project Overview
 
