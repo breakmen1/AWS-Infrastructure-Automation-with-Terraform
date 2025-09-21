@@ -1,128 +1,123 @@
-This documentation provides a comprehensive, step-by-step guide to deploying a scalable, highly available web application on AWS using Terraform. The project creates a custom Virtual Private Cloud (VPC) with public and private subnets, an Application Load Balancer (ALB), and an Auto Scaling Group (ASG) for EC2 instances. The web servers run Apache and are automatically deployed and managed.
+🚀 Terraform AWS VPC with ALB & ASG
 
-Project Overview 💻
-🌐 What the Project Does
-This project automates the creation of a secure and scalable web application environment on Amazon Web Services (AWS) using Terraform. It establishes a multi-tier architecture to ensure high availability and fault tolerance. The infrastructure includes:
+This project demonstrates how to deploy a scalable, highly available web application on AWS using Terraform.
+It provisions a custom VPC, public & private subnets, an Application Load Balancer (ALB), and an Auto Scaling Group (ASG) of EC2 instances running Apache.
 
-Custom VPC: A dedicated virtual network to isolate resources.
+🌐 Project Overview
+What This Project Does
 
-Public Subnets: Where the load balancer and other internet-facing resources reside. Traffic is routed to the internet via an Internet Gateway.
+This project automates the creation of a secure and production-ready web environment on AWS:
 
-Private Subnets: Where the web servers (EC2 instances) are deployed, protected from direct internet access. They can still access the internet for updates via a NAT Gateway.
+Custom VPC – Dedicated network for isolation.
 
-Application Load Balancer (ALB): Distributes incoming web traffic to the EC2 instances. It resides in the public subnets.
+Public Subnets – Host the ALB and internet-facing resources.
 
-Auto Scaling Group (ASG): Automatically adjusts the number of EC2 instances based on demand, ensuring performance and fault tolerance.
+Private Subnets – Host EC2 instances (web servers) protected from direct internet access.
 
-EC2 Instances: The web servers running Apache. They are launched from a specific AMI and configured with a simple web page.
+Application Load Balancer (ALB) – Distributes traffic across EC2 instances.
 
-Security Groups: Act as virtual firewalls to control inbound and outbound traffic to the ALB and EC2 instances.
+Auto Scaling Group (ASG) – Scales EC2 instances automatically based on demand.
+
+EC2 Instances – Run Apache web server with a simple webpage.
+
+Security Groups – Control inbound/outbound traffic securely.
 
 🎯 Why This Project is Useful
-The primary goal of this project is to showcase how to build a robust, production-ready environment using Infrastructure as Code (IaC). Key benefits include:
 
-Automation: Eliminates manual configuration, reducing human error and saving time.
+Automation – Eliminates manual setup using Infrastructure as Code (IaC).
 
-Scalability: The Auto Scaling Group ensures the application can handle varying loads without manual intervention.
+Scalability – Auto-scaling handles variable workloads automatically.
 
-High Availability: The use of multiple Availability Zones (AZs) ensures that if one AZ fails, the application remains operational.
+High Availability – Multi-AZ setup ensures fault tolerance.
 
-Security: The multi-tier design isolates private resources, enhancing security by preventing direct public access to the web servers.
+Security – Private subnets + NAT Gateway ensure instances are not directly exposed.
 
-Prerequisites and Setup ⚙️
-Before you begin, ensure you have the following tools and access configured:
+⚙️ Prerequisites
 
-Terraform CLI: The latest version of Terraform must be installed on your machine.
+Before running the project, ensure you have:
 
-AWS Account: You need an active AWS account.
+Terraform CLI (latest version)
 
-AWS CLI: The AWS Command Line Interface should be configured with your AWS credentials. This allows Terraform to authenticate and create resources in your account.
+AWS Account with proper IAM access
 
-S3 Bucket: The Terraform configuration uses a remote backend to store the state file. You'll need to create an S3 bucket in your AWS account and replace "mys300259ede69013c771e40" with your bucket's name in the vpc.tf file.
+AWS CLI configured with credentials
 
-AMI ID: The ami-0bbdd8c17ed981ef9 in the code is specific to the us-east-1 region. If you are using a different region, you must find a valid AMI ID for that region.
+S3 Bucket (for Terraform remote state)
 
-Code Breakdown and Resource Explanation 🧩
-The project is split into two Terraform configuration files: vpc.tf for network resources and ec2.tf for compute resources. The userdata.sh script is used to configure the EC2 instances.
+AMI ID (update in ec2.tf if using a region other than us-east-1)
 
-vpc.tf
-This file defines the foundational network infrastructure.
+🧩 Code Structure
+.
+├── vpc.tf          # VPC, Subnets, Route Tables, IGW, NAT Gateway
+├── ec2.tf          # ALB, Target Groups, ASG, Security Groups, EC2 Launch Template
+├── userdata.sh     # Bootstraps EC2 instances with Apache web server
 
-terraform block: Specifies the required AWS provider and configures the S3 remote backend. The backend stores the state file (.tfstate), which tracks the deployed resources, in an S3 bucket.
+Key Highlights
 
-aws_vpc.my-aws-vpc: Creates a Virtual Private Cloud (VPC) with a CIDR block of 10.0.0.0/16. This provides a private, isolated network for all resources.
+vpc.tf → Defines VPC, Subnets, IGW, NAT, Route Tables.
 
-variable "aws_availability_zones": Defines a list of Availability Zones to be used for subnets, ensuring high availability.
+ec2.tf → Defines ALB, Target Group, Listener, Launch Template, Auto Scaling Group.
 
-aws_subnet.my-public-subnet: Creates two public subnets in different AZs. The cidrsubnet function dynamically calculates a /24 CIDR block for each subnet (e.g., 10.0.1.0/24, 10.0.2.0/24).
+userdata.sh → Installs Apache, starts service, and serves a simple webpage.
 
-aws_subnet.my-private-subnet: Creates two private subnets, also in different AZs, with their own dynamically calculated CIDR blocks (e.g., 10.0.3.0/24, 10.0.4.0/24).
+🚀 Deployment Steps
 
-aws_internet_gateway.my-aws-igw: Attaches an Internet Gateway (IGW) to the VPC, enabling public subnets to communicate with the internet.
+Clone the Repository
 
-aws_route_table.my-aws-rt: Creates a public route table that directs all (0.0.0.0/0) outbound traffic to the IGW.
+git clone https://github.com/yourusername/aws-vpc-alb-asg.git
+cd aws-vpc-alb-asg
 
-aws_route_table_association.my-aws-pub-rta: Associates the public route table with the public subnets.
 
-aws_eip.my-pub-elastic-ip: Allocates a static public IP address for the NAT Gateway.
+Initialize Terraform
 
-aws_nat_gateway.my-aws-nat: Deploys a NAT Gateway in the first public subnet. This allows resources in the private subnets to initiate outbound connections to the internet (e.g., for updates) without receiving unsolicited inbound traffic.
+terraform init
 
-aws_route_table.my-aws-pri-rt: Creates a private route table that routes all (0.0.0.0/0) outbound traffic through the NAT Gateway.
 
-aws_route_table_association.my-aws-pri-rta: Associates the private route table with the private subnets.
+Review the Plan
 
-ec2.tf
-This file handles the compute layer, including the load balancer and auto-scaling.
+terraform plan
 
-aws_security_group.aws-secu-alb: Defines a security group for the ALB. It allows inbound traffic on port 80 (HTTP) from anywhere (0.0.0.0/0).
 
-aws_security_group.aws-secu-ec2: Defines a security group for the EC2 instances. It only allows inbound traffic from the ALB's security group, ensuring that the web servers are not directly accessible from the internet.
+Apply Configuration
 
-aws_lb.my-aws-lb: Creates an Application Load Balancer (ALB) in the public subnets. It's configured to be public-facing (internal = false).
+terraform apply
 
-aws_lb_target_group.my-aws-lb-tar: Creates a Target Group for the ALB. It listens on port 80 and is associated with the VPC. The EC2 instances will register with this target group.
 
-aws_lb_listener.my-aws-lb-list: Creates a listener for the ALB on port 80 (HTTP). It forwards all traffic to the target group.
+Type yes when prompted.
 
-aws_launch_template.ec2-launch-template: A template for launching new EC2 instances. It specifies the AMI ID, instance type (t2.micro), and associates the private security group. The user_data field references the userdata.sh file, which contains the startup script.
+Get the ALB DNS Name
 
-aws_autoscaling_group.my-aws-auto-scal: An Auto Scaling Group (ASG) that ensures a minimum of 2 and a maximum of 3 EC2 instances are running. It's configured to launch instances into the private subnets and register them with the ALB target group.
-
-output "aws_dns_name": An output variable that displays the DNS name of the created ALB, which is the public endpoint for the web application.
-
-userdata.sh
-This is a shell script that runs on the EC2 instances at boot time.
-
-apt update -y: Updates the package lists.
-
-apt install -y apache2: Installs the Apache web server.
-
-systemctl start apache2: Starts the Apache service.
-
-systemctl enable apache2: Ensures Apache starts automatically on future reboots.
-
-echo ... > /var/www/html/index.html: Creates a simple HTML file to serve as the web page. The message includes the private IP address of the instance, confirming which server is serving the request.
-
-Execution and Final Output 🚀
-➡️ Step-by-Step Execution
-Clone the Repository: Place the vpc.tf, ec2.tf, and userdata.sh files in the same directory.
-
-Initialize Terraform: Open your terminal in the project directory and run terraform init. This command downloads the necessary AWS provider and initializes the S3 backend.
-
-Review the Plan: Run terraform plan. This will show you a detailed list of all the resources Terraform will create, change, or destroy.
-
-Apply the Configuration: If the plan looks correct, run terraform apply. Type yes when prompted to confirm the execution.
-
-Wait for Completion: Terraform will now provision all the resources in your AWS account. This process can take several minutes.
-
-Retrieve the Output: Once terraform apply is complete, the output "aws_dns_name" will display the public DNS name of the ALB.
+terraform output aws_dns_name
 
 🌐 Final Output
-The final output of the project is a functional, highly available web application. You can access it by opening a web browser and navigating to the DNS name provided by the Terraform output.
 
-When you refresh the page, the content will change to show the private IP address of a different EC2 instance, demonstrating that the ALB is successfully distributing traffic across the two web servers.
+A highly available web application accessible via the ALB DNS.
 
-The final DNS output will look similar to this:
+Example output:
 
 aws_dns_name = "my-aws-lb-123456789.us-east-1.elb.amazonaws.com"
+
+
+Open this DNS in a browser → You’ll see an Apache welcome page.
+
+Refreshing shows responses from different EC2 instances (via ALB load balancing).
+
+📸 Demo Screenshot (Optional)
+
+(Add a screenshot of the webpage served through ALB if you want)
+
+🛠️ Technologies Used
+
+Terraform – Infrastructure as Code
+
+AWS VPC, Subnets, IGW, NAT Gateway – Networking
+
+AWS ALB – Load Balancing
+
+AWS Auto Scaling Group – Elastic scaling
+
+EC2 + Apache – Web server
+
+✅ Outcome
+
+You now have a scalable, secure, fault-tolerant infrastructure on AWS — all built automatically using Terraform.
