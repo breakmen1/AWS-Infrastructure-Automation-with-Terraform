@@ -44,16 +44,6 @@ Before running the project, ensure you have:
 
 ## Code Structure  
 
-├── vpc.tf # VPC, Subnets, Route Tables, IGW, NAT Gateway
-
-├── ec2.tf # ALB, Target Groups, ASG, Security Groups, EC2 Launch Template
-
-├── userdata.sh # Bootstraps EC2 instances with Apache web server
-
-
-
-### Key Highlights  
-
 - **vpc.tf** → Defines VPC, Subnets, IGW, NAT, Route Tables.  
 - **ec2.tf** → Defines ALB, Target Group, Listener, Launch Template, Auto Scaling Group.  
 - **userdata.sh** → Installs Apache, starts service, and serves a simple webpage.  
