@@ -1,6 +1,6 @@
 ## Infrastructure as Code ##  
 
-This project demonstrates how to deploy a **scalable, highly available web application** on **AWS** using **Terraform**.  
+This project demonstrates how to deploy a **secure, scalable, highly available web application** on **AWS** using **Terraform**.  
 It provisions a custom **VPC**, public & private subnets, an **Application Load Balancer (ALB)**, and an **Auto Scaling Group (ASG)** of EC2 instances running **Apache**.  
 
 ---
