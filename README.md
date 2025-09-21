@@ -94,6 +94,7 @@ AWS ALB – Load Balancing
 AWS Auto Scaling Group – Elastic scaling
 EC2 + Apache – Web server
 
+<img width="1018" height="184" alt="image" src="https://github.com/user-attachments/assets/50a518f2-9b1f-470c-b22f-19d09117afd5" />
 
 **Outcome**
 You now have a scalable, secure, fault-tolerant infrastructure on AWS — all built automatically using Terraform.
