@@ -45,7 +45,9 @@ Before running the project, ensure you have:
 ## Code Structure  
 
 ├── vpc.tf # VPC, Subnets, Route Tables, IGW, NAT Gateway
+
 ├── ec2.tf # ALB, Target Groups, ASG, Security Groups, EC2 Launch Template
+
 ├── userdata.sh # Bootstraps EC2 instances with Apache web server
 
 
