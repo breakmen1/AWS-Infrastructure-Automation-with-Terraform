@@ -78,7 +78,6 @@ Before running the project, ensure you have:
 
 
 **Final Output**
-
 A highly available web application accessible via the ALB DNS.
 
 **Example output**:
@@ -89,7 +88,6 @@ Refreshing shows responses from different EC2 instances (via ALB load balancing)
 
 
 **Technologies Used**
-
 Terraform – Infrastructure as Code
 AWS VPC, Subnets, IGW, NAT Gateway – Networking
 AWS ALB – Load Balancing
