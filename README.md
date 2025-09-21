@@ -41,7 +41,7 @@ Before running the project, ensure you have:
 
 ---
 
-## 🧩 Code Structure  
+## Code Structure  
 
 ├── vpc.tf # VPC, Subnets, Route Tables, IGW, NAT Gateway
 ├── ec2.tf # ALB, Target Groups, ASG, Security Groups, EC2 Launch Template
@@ -95,6 +95,7 @@ AWS VPC, Subnets, IGW, NAT Gateway – Networking
 AWS ALB – Load Balancing
 AWS Auto Scaling Group – Elastic scaling
 EC2 + Apache – Web server
+
 
 **Outcome**
 You now have a scalable, secure, fault-tolerant infrastructure on AWS — all built automatically using Terraform.
