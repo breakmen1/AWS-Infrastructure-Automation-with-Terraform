@@ -7,6 +7,7 @@ It provisions a custom **VPC**, public & private subnets, an **Application Load 
 
 ## Project Overview  
 
+
 ### What This Project Does  
 This project automates the creation of a secure and production-ready web environment on AWS:  
 
@@ -80,6 +81,7 @@ Before running the project, ensure you have:
 **Final Output**
 A highly available web application accessible via the ALB DNS.
 
+
 **Example output**:
 aws_dns_name = "**my-aws-lb-123456789.us-east-1.elb.amazonaws.com**"
 Open this DNS in a browser → You’ll see an Apache welcome page.
@@ -94,13 +96,13 @@ AWS ALB – Load Balancing
 AWS Auto Scaling Group – Elastic scaling
 EC2 + Apache – Web server
 
-<img width="1018" height="184" alt="image" src="https://github.com/user-attachments/assets/50a518f2-9b1f-470c-b22f-19d09117afd5" />
+
 
 **Outcome**
 You now have a scalable, secure, fault-tolerant infrastructure on AWS — all built automatically using Terraform.
 
 
-
+<img width="1018" height="184" alt="image" src="https://github.com/user-attachments/assets/50a518f2-9b1f-470c-b22f-19d09117afd5" />
 
 
 
